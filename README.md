@@ -1,6 +1,6 @@
-## PUZZLEggs (js13k edition)
+## PUZZLEggs (Complete edition
 
-**js13k page: http://js13kgames.com/entries/puzzleggs** (you can play it here)
+**js13k edition can be played here: http://js13kgames.com/entries/puzzleggs** (you can play it here)
 
 -------
 
