@@ -61,7 +61,7 @@ export class TitleScreen {
         this.menuLong.addButton(buttons[0], buttons[1], buttons[2]);
 
         // Phase
-        this.phase = 0;
+        this.phase = -1;
         // Enter wave 
         this.enterWave = 0;
 
@@ -72,7 +72,7 @@ export class TitleScreen {
         // Error timer
         this.errorTimer = 0;
         // Wait timer (could use just one timer, true)
-        this.waitTimer = 0;
+        this.waitTimer = WAIT_TIME;
 
         // Vortex
         this.vortexTimer = 0;
@@ -157,7 +157,7 @@ export class TitleScreen {
         const ERR_TIME = 120;
         const WAVE_SPEED = 0.05;
         const VORTEX_SPEED = 0.0125;
-        const PRESS_F_SPEED = 4.0;
+        const PRESS_F_SPEED = 1.0;
 
         let id;
         let t;
@@ -180,7 +180,7 @@ export class TitleScreen {
         }
 
         // Update "Press F"
-        this.pressFPos += ev.step;
+        this.pressFPos += PRESS_F_SPEED * ev.step;
 
         // Update vortex
         this.vortexTimer = 
@@ -194,8 +194,21 @@ export class TitleScreen {
         // Update eggs
         this.updateEggs(ev);
 
+
+        // Logo appearance
+        if (this.phase == -1) {
+
+            if ( (this.waitTimer -= ev.step) <= 0.0 ) {
+
+                this.waitTimer = 0.0;
+                ++ this.phase;
+            }
+
+            // Update wave
+            this.enterWave += WAVE_SPEED * ev.step;
+        } 
         // Press enter
-        if (this.phase == 0) {
+        else if (this.phase == 0) {
 
             if (ev.input.getKey(Action.Start) == State.Pressed) {
 
@@ -385,12 +398,23 @@ export class TitleScreen {
         c.translate(0, CENTER_SHIFT);
         c.useTransform();
 
-        if (this.phase == 0) {
+        // Compute logo scale
+        let lscale = 1.0;
+        if (this.phase == -1) {
+
+            lscale = 1.0 - this.waitTimer / WAIT_TIME;
+        }
+
+        if (this.phase == 0 || this.phase == -1) {
+
+            c.setGlobalAlpha(lscale);
 
             c.drawScaledText("Press Enter", mx, my-ENTER_SCALE/2,
                 -20, 0, ENTER_SCALE, ENTER_SCALE, true,
                 Math.PI*2/6, 8, this.enterWave,
                 SHADOW_OFF_1, 0.25, [1, 1, 0.5]);
+
+            c.setGlobalAlpha(1);
         }
         else if (this.phase == 1) {
 
@@ -431,15 +455,18 @@ export class TitleScreen {
             SHADOW_OFF_2, 0.25, [1, 1, 1]);
 
         // Draw logo
+        for (let i = 1; i >= 0; -- i) {
 
-        c.setColor(0, 0, 0, 0.25);
-        c.drawScaledBitmap(bmpLogo, 
-            mx-LOGO_W/2 + SHADOW_OFF_1, my + LOGO_Y + SHADOW_OFF_1, 
-            LOGO_W, LOGO_H);
+            if (i == 0)
+                c.setColor(1, 1, 1);
+            else
+                c.setColor(0, 0, 0, 0.25);
 
-        c.setColor(1, 1, 1);
-        c.drawScaledBitmap(bmpLogo, 
-            mx-LOGO_W/2, my + LOGO_Y, LOGO_W, LOGO_H);
+            c.drawScaledBitmap(bmpLogo, 
+                mx-LOGO_W/2*lscale + SHADOW_OFF_1*i, 
+                my + LOGO_Y + LOGO_H/2 - LOGO_H/2*lscale + SHADOW_OFF_1*i, 
+                LOGO_W*lscale, LOGO_H*lscale);
+        }
 
         // Draw "Press F"
         for (let i = -1; i <= 1; ++ i) {
