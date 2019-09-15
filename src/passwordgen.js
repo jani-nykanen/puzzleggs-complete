@@ -24,6 +24,9 @@ export class PasswordGen {
     //
     genPassword(i) {
 
+        if (i == 1) return "00000";
+        -- i;
+
         let m = 50 + ((i/2)|0) * this.a * (1 - 2 * (i % 2)); // ID
         let n = i * this.b; // ID check 1
         let k = (i * 7) % 10; // Remainder
@@ -40,6 +43,8 @@ export class PasswordGen {
     // Decode password
     //
     decodePassword(s) {
+
+        if (s == "00000") return 1;
 
         let m = Number(s.substr(0, 2));
         let n = Number(s.substr(2, 2));
@@ -61,7 +66,7 @@ export class PasswordGen {
             ((i*7) % 10 != k) ) 
             return -1;
 
-        return i;
+        return i +1;
     }
 
 }
