@@ -7,7 +7,13 @@ import { Menu, Button } from "./menu.js";
 // (c) 2019 Jani Nykänen
 //
 
+// Local constants
+const WAIT_TIME = 120;
 
+
+//
+// Intro scene class
+//
 export class Intro {
 
 
@@ -16,7 +22,7 @@ export class Intro {
     //
     constructor(ev) {
 
-        const WAIT_TIME = 120;
+        
 
         this.timer = WAIT_TIME;
         this.phase = 0;
@@ -43,10 +49,17 @@ export class Intro {
     //
     // Increase phase
     //
-    increasePhase(ev) {
+    increasePhase(ev, fadeIn) {
 
-        ev.tr.activate(false, 1.0, 0, 0, 0);
-        ++ this.phase;
+        ev.tr.activate(fadeIn != null, 1.0, 0, 0, 0,
+            () => {
+
+                if (fadeIn)
+                    ++ this.phase;
+            });
+
+        if (!fadeIn)
+            ++ this.phase;
     }
 
 
@@ -65,13 +78,23 @@ export class Intro {
         // Update "created by" animation
         else {
 
-            if ((this.timer -= ev.step) <= 0 ||
+            this.timer -= ev.step;
+
+            if ((this.phase == 2 && this.timer <= 0) ||
                 ev.input.getKey(Action.Start) == State.Pressed) {
 
                 ev.tr.activate(true, 2.0, 0, 0, 0,
                     () => {
                         ev.changeScene("title");
+                        ev.audio.fadeInMusic(ev.audio.sounds.theme,
+                            0.6, 1000);
                     });
+            }
+
+            if (this.phase == 1 && this.timer <= 0) {
+
+                this.increasePhase(ev, true);
+                this.timer = WAIT_TIME;
             }
         }
     }
@@ -89,9 +112,12 @@ export class Intro {
         const FACE_Y = 64;
         const FACE_SCALE = 256;
 
+        const STR1 = ["A game by", "Main theme by"];
+        const STR2 = ["Jani Nyk#nen", "H0dari"];
+
         let mx = c.viewport.x/2;
         let my = c.viewport.y/2;
-
+        
         c.clear(0, 0, 0);
         c.toggleTexturing(true);
 
@@ -121,18 +147,21 @@ export class Intro {
             c.translate(mx, my);
             c.useTransform();
 
-            // Draw face
-            c.drawScaledBitmap(c.bitmaps.face,
-                -FACE_SCALE/2, -FACE_SCALE + FACE_Y, 
-                FACE_SCALE, FACE_SCALE);
+            if (this.phase == 1) {
+
+                // Draw face
+                c.drawScaledBitmap(c.bitmaps.face,
+                    -FACE_SCALE/2, -FACE_SCALE + FACE_Y, 
+                    FACE_SCALE, FACE_SCALE);
+            }
 
             // Draw text
-            c.drawScaledText("Created by", 
-                0, - BIG_SCALE + TEXT_SHIFT, 
+            c.drawScaledText(STR1[this.phase -1], 
+                0, - BIG_SCALE + (this.phase == 1 ? TEXT_SHIFT : 0), 
                 -20, 0, SMALL_SCALE, SMALL_SCALE, true);
 
-            c.drawScaledText("Jani Nyk#nen", 
-                0, - BIG_SCALE/2 + TEXT_SHIFT, 
+            c.drawScaledText(STR2[this.phase -1], 
+                0, - BIG_SCALE/2 + (this.phase == 1 ? TEXT_SHIFT : 0), 
                 -20, 0, BIG_SCALE, BIG_SCALE, true);   
         } 
     }

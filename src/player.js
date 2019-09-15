@@ -48,13 +48,13 @@ export class Player extends Movable {
     //
     // Check if stuck
     //
-    isStuck(stage) {
+    isStuck(stage, ev) {
 
         if (this.moving) return false;
 
         if (this.isSurrounded(stage)) {
 
-            this.control(stage, null, null, true);
+            this.control(stage, ev, null, true);
             if (this.isSurrounded(stage)) {
 
                 return true;

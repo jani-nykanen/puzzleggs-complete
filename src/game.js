@@ -72,17 +72,26 @@ export class Game {
         this.pauseMenu = new Menu();
         this.paused = false;
 
+        this.resumeMusic = false;
+
         // Add menu buttons
         this.pauseMenu.addButton(
-            new Button("Resume", () => {this.paused = false;}),
+            new Button("Resume", () => {
+                ev.audio.resumeMusic();
+                this.paused = false;
+            }),
             new Button("Restart", () => {
                 this.paused = false;
+                ev.audio.resumeMusic();
                 this.restartTransition();
             }),
             new Button("Quit", () => {
 
                 ev.tr.activate(true, 2.0, ...BG_COLOR,
-                    () => {ev.changeScene("title", 1);}
+                    () => {
+                        ev.audio.resumeMusic();
+                        ev.changeScene("title", 1);
+                    }
                 );
             }),
         );
@@ -115,12 +124,14 @@ export class Game {
     //
     restartTransition(stuck, ev) {
 
-        const STUCK_DELAY = 30;
+        const STUCK_DELAY = 60;
 
         if (stuck == 2) {
 
             ++ this.id;
             if (this.id > MapData.length) {
+
+                ev.audio.stopMusic();
 
                 ev.tr.activate(true, 0.5, 1, 1, 1,
                     () => {
@@ -131,13 +142,23 @@ export class Game {
                 return;
             }
         }
+
+        if (stuck == 1) {
+
+            ev.audio.pauseMusic();
+            ev.audio.playSample(ev.audio.sounds.stuck,
+                0.60);
+        }
         
+        this.resumeMusic = false;
         this.localTr.activate(
             true, stuck ? (3.0-stuck) : 2, 
             ...BG_COLOR, () => 
-                {this.restart();
+                {
+                    this.resumeMusic = true;
+                    this.restart();
                 },
-            STUCK_DELAY * stuck
+                stuck == null ? 0 : STUCK_DELAY
         );
 
         this.stuck = stuck;
@@ -162,7 +183,12 @@ export class Game {
         }
 
         if (ev.tr.active) return;
-        
+
+        if (this.resumeMusic && !this.localTr.active) {
+
+            a.resumeMusic();
+            this.resumeMusic = false;
+        }
 
         // Update floating text
         this.textFloatValue += FLOAT_SPEED * ev.step;
@@ -214,6 +240,7 @@ export class Game {
             this.paused = true;
             this.pauseMenu.setCursorPos(0);
 
+            a.pauseMusic();
             a.playSample(a.sounds.pause, 0.30);
 
             return;
@@ -236,7 +263,8 @@ export class Game {
         // Go to the next stage, if stage finished
         if (this.objMan.stageFinished()) {
 
-            a.playSample(a.sounds.victory, 0.50);
+            ev.audio.pauseMusic();
+            a.playSample(a.sounds.victory, 0.65);
 
             this.restartTransition(2, ev);
             return;
@@ -246,6 +274,7 @@ export class Game {
         if (ev.input.getKey(Action.Reset) == State.Pressed) {
 
             this.restartTransition();
+            a.playSample(a.sounds.accept, 0.50);
         }
     }
 

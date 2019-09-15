@@ -20,7 +20,7 @@ export class AudioPlayer {
         // Volume
         this.sampleVol = 1.0;
         this.musicVol = 1.0;
-    
+
         // Music ID
         this.musicID = null;
         // Music sound
@@ -29,6 +29,8 @@ export class AudioPlayer {
         this.volCache = 0.0;
 
         this.sounds = sounds;
+
+        this.paused = false;
     }
 
 
@@ -57,6 +59,8 @@ export class AudioPlayer {
     //
     fadeInMusic(sound, vol, time) {
 
+        if(!this.enabled) return;
+
         if(this.musicID == null) {
 
             this.musicID = sound.play();
@@ -77,6 +81,8 @@ export class AudioPlayer {
     //
     fadeOutMusic(sound, vol, time) {
 
+        if(!this.enabled) return;
+
         if(this.musicID == null) {
 
             this.musicID = sound.play();
@@ -95,6 +101,8 @@ export class AudioPlayer {
     //
     stopMusic() {
 
+        if(!this.enabled) return;
+
         if(this.musicSound == null || this.musicID == null)
             return;
 
@@ -109,10 +117,15 @@ export class AudioPlayer {
     //
     pauseMusic() {
 
+        if(!this.enabled) return;
+        
+        if (this.paused) return;
+
         if(this.musicSound == null || this.musicID == null)
             return;
 
         this.musicSound.pause(this.musicID);
+        this.paused = true;
     }
 
 
@@ -121,7 +134,24 @@ export class AudioPlayer {
     //
     resumeMusic() {
 
+        if(!this.enabled) return;
+
+        if (!this.paused) return;
+        this.paused = false;
+
         this.musicSound.play(this.musicID);
+    }
+
+
+    //
+    // Set music volume (relative)
+    //
+    setMusicVolume(v) {
+
+        if(!this.enabled) return;
+
+        this.musicSound.volume(
+            v == null ? this.volCache : this.volCache * v);
     }
 
 

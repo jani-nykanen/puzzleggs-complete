@@ -37,6 +37,8 @@ window.onload = () => {
         {name: "key", src: "assets/audio/key.wav"},
         {name: "step", src: "assets/audio/step.wav"},
         {name: "victory", src: "assets/audio/victory.ogg"},
+        {name: "stuck", src: "assets/audio/stuck.ogg"},
+        {name: "theme", src: "assets/audio/theme.ogg"},
     );
 
     c.run(60);

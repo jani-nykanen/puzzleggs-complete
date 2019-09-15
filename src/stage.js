@@ -891,7 +891,7 @@ export class Stage {
         let t = null;
         let id = this.getTile(o.pos.x, o.pos.y);
 
-        let a = ev.audio;
+        let a = ev == null ? null : ev.audio;
         
         // Arrows
         if (id >= 4 && id <= 7) {
@@ -931,7 +931,8 @@ export class Stage {
                 }
             }
 
-            a.playSample(a.sounds.sSwitch, 0.80);
+            if (ev != null && a != null)
+                a.playSample(a.sounds.sSwitch, 0.80);
 
             return null;
         }
@@ -946,7 +947,8 @@ export class Stage {
                 LOCK_STAR_SPEED, LOCK_STAR_COUNT, 
                 LOCK_STAR_RADIUS, 1, [1, 1, 0.5]);
 
-            a.playSample(a.sounds.key, 0.70);
+            if (ev != null)    
+                a.playSample(a.sounds.key, 0.70);
         }
 
         return t;
