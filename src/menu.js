@@ -21,6 +21,32 @@ export class Button {
 
         this.text = text;
         this.cb = cb;
+
+        this.scale = 0.0;
+    }
+
+
+    //
+    // Update scale
+    //
+    updateScale(active, ev) {
+
+        const SPEED = 0.075;
+
+        let target = active ? 1.0 : 0.0;
+
+        if (target > this.scale) {
+
+            this.scale = Math.min(
+                this.scale + SPEED*ev.step, 
+                target);
+        }
+        else if (target < this.scale) {
+
+            this.scale = Math.max(
+                this.scale - SPEED*ev.step, 
+                target);
+        }
     }
 }
 
@@ -57,6 +83,8 @@ export class Menu {
                 this.maxLen = arguments[i].text.length;
             }
         }
+
+        this.buttons[0].scale = 1.0;
     }
 
 
@@ -88,6 +116,12 @@ export class Menu {
                 cb();
             }
         }
+
+        // Update buttons
+        for (let i = 0; i < this.buttons.length; ++ i) {
+
+            this.buttons[i].updateScale(this.cursorPos == i, ev);
+        }
     }
 
 
@@ -98,7 +132,7 @@ export class Menu {
 
         const BUTTON_OFF = scale / 8;
         const TEXT_XOFF = -20;
-        const SCALE_PLUS = 0.1;
+        const SCALE_PLUS = 0.15;
         const SHADOW_OFF = BUTTON_OFF/2;
         const BG_OFF = BUTTON_OFF*2;
         const COLORS = [[1, 1, 1], [1, 1, 0]];
@@ -131,23 +165,40 @@ export class Menu {
         let col;
         for (let i = 0; i < n; ++ i) {
 
+            s = 1.0 + this.buttons[i].scale * SCALE_PLUS;
+
             if (i == this.cursorPos) {
 
-                s = scale * (1 + SCALE_PLUS);
                 col = COLORS[1];
             }
             else {
 
-                s = scale;
                 col = COLORS[0];
             }
 
             c.drawScaledText(this.buttons[i].text,
                 x, y + i*h , 
                 TEXT_XOFF, 0,
-                s, s, true, null, null, null,
+                s*scale, s*scale,
+                 true, null, null, null,
                 SHADOW_OFF, 0.25, col);
         }
 
+    }
+
+
+    //
+    // Set cursor position
+    //
+    setCursorPos(p) {
+
+        this.cursorPos = p % this.buttons.length;
+        for (let i = 0; i < this.buttons.length; ++ i) {
+
+            if (i == this.cursorPos)
+                this.buttons[i].scale = 1.0;
+            else
+                this.buttons[i].scale = 0.0;
+        }
     }
 }

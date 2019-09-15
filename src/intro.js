@@ -1,4 +1,5 @@
 import { Shape } from "./canvas.js";
+import { Action, State } from "./input.js";
 
 //
 // Intro
@@ -29,7 +30,8 @@ export class Intro {
 
         if (ev.tr.active) return;
 
-        if ((this.timer -= ev.step) <= 0) {
+        if ((this.timer -= ev.step) <= 0 ||
+            ev.input.getKey(Action.Start) == State.Pressed) {
 
             ev.tr.activate(true, 2.0, 0, 0, 0,
                 () => {

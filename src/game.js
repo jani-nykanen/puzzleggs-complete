@@ -210,7 +210,7 @@ export class Game {
         if (ev.input.getKey(Action.Start) == State.Pressed) {
 
             this.paused = true;
-            this.pauseMenu.cursorPos = 0;
+            this.pauseMenu.setCursorPos(0);
             return;
         }
 

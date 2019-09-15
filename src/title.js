@@ -158,6 +158,7 @@ export class TitleScreen {
         const WAVE_SPEED = 0.05;
         const VORTEX_SPEED = 0.0125;
         const PRESS_F_SPEED = 1.0;
+        const LOGO_APPEAR_SPEED = 0.75;
 
         let id;
         let t;
@@ -198,7 +199,7 @@ export class TitleScreen {
         // Logo appearance
         if (this.phase == -1) {
 
-            if ( (this.waitTimer -= ev.step) <= 0.0 ) {
+            if ( (this.waitTimer -= LOGO_APPEAR_SPEED * ev.step) <= 0.0 ) {
 
                 this.waitTimer = 0.0;
                 ++ this.phase;
@@ -461,6 +462,11 @@ export class TitleScreen {
             logoShift = Math.sin(Math.PI*2 * lscale) * LOGO_H/2;
         }
 
+        c.push();
+        c.translate(mx, my + LOGO_Y + LOGO_H/2 + logoShift);
+        c.rotate((1.0-lscale) * Math.PI*2);
+        c.useTransform();
+
         // Draw logo
         for (let i = 1; i >= 0; -- i) {
 
@@ -470,10 +476,12 @@ export class TitleScreen {
                 c.setColor(0, 0, 0, 0.25);
 
             c.drawScaledBitmap(bmpLogo, 
-                mx-LOGO_W/2*lscale + SHADOW_OFF_1*i, 
-                my + LOGO_Y + logoShift + LOGO_H/2 - LOGO_H/2*lscale + SHADOW_OFF_1*i, 
+                -LOGO_W/2*lscale + SHADOW_OFF_1*i, 
+                -LOGO_H/2*lscale + SHADOW_OFF_1*i, 
                 LOGO_W*lscale, LOGO_H*lscale);
         }
+
+        c.pop();
 
         // Draw "Press F"
         for (let i = -1; i <= 1; ++ i) {
@@ -512,7 +520,7 @@ export class TitleScreen {
             this.menu = this.menuLong;
         }
 
-        this.menu.cursorPos = (p == null ? 0 : 1);
+        this.menu.setCursorPos(p == null ? 0 : 1);
     }
 
 }
