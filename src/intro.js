@@ -80,21 +80,22 @@ export class Intro {
 
             this.timer -= ev.step;
 
-            if ((this.phase == 2 && this.timer <= 0) ||
-                ev.input.getKey(Action.Start) == State.Pressed) {
+            if (this.timer <= 0 || ev.input.getKey(Action.Start) == State.Pressed) {
 
-                ev.tr.activate(true, 2.0, 0, 0, 0,
-                    () => {
-                        ev.changeScene("title");
-                        ev.audio.fadeInMusic(ev.audio.sounds.theme,
-                            0.6, 1000);
-                    });
-            }
+                if (this.phase == 2) {
 
-            if (this.phase == 1 && this.timer <= 0) {
+                    ev.tr.activate(true, 2.0, 0, 0, 0,
+                        () => {
+                            ev.changeScene("title");
+                            ev.audio.fadeInMusic(ev.audio.sounds.theme,
+                                0.6, 1000);
+                        });
+                }
+                else if (this.phase == 1) {
 
-                this.increasePhase(ev, true);
-                this.timer = WAIT_TIME;
+                    this.increasePhase(ev, true);
+                    this.timer = WAIT_TIME;
+                }
             }
         }
     }
