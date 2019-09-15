@@ -852,13 +852,17 @@ export class Stage {
     //
     // Update solid
     //
-    updateSolid(x, y, s) {
+    updateSolid(x, y, s, ev) {
 
         let b = false;
         if (s == 2 && this.getTile(x, y) == 16) {
 
             this.data[y * this.w + x] = 0;
             b = true;
+
+            if (ev != null)
+                ev.audio.playSample(
+                    ev.audio.sounds.open, 0.60);
         }
 
         this.solid[y * this.w + x] = s;
@@ -878,7 +882,7 @@ export class Stage {
     //
     // Get automatic movement (and other auto-stuff)
     //
-    autoMovement(o, objm) {
+    autoMovement(o, objm, ev) {
 
         const LOCK_STAR_COUNT = 4;
         const LOCK_STAR_SPEED = 4;
@@ -886,6 +890,8 @@ export class Stage {
 
         let t = null;
         let id = this.getTile(o.pos.x, o.pos.y);
+
+        let a = ev.audio;
         
         // Arrows
         if (id >= 4 && id <= 7) {
@@ -924,6 +930,9 @@ export class Stage {
                     this.data[i] = 4 + (((this.data[i]-4)+2)%4);
                 }
             }
+
+            a.playSample(a.sounds.sSwitch, 0.80);
+
             return null;
         }
         // Key
@@ -936,6 +945,8 @@ export class Stage {
                 o.rpos.x+Tile.Width/2,o.rpos.y+Tile.Height/2,
                 LOCK_STAR_SPEED, LOCK_STAR_COUNT, 
                 LOCK_STAR_RADIUS, 1, [1, 1, 0.5]);
+
+            a.playSample(a.sounds.key, 0.70);
         }
 
         return t;

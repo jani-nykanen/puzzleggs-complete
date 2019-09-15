@@ -214,7 +214,7 @@ export class Game {
             this.paused = true;
             this.pauseMenu.setCursorPos(0);
 
-            a.playSample(a.sounds.pause, 0.40);
+            a.playSample(a.sounds.pause, 0.30);
 
             return;
         }
@@ -235,6 +235,8 @@ export class Game {
 
         // Go to the next stage, if stage finished
         if (this.objMan.stageFinished()) {
+
+            a.playSample(a.sounds.victory, 0.50);
 
             this.restartTransition(2, ev);
             return;

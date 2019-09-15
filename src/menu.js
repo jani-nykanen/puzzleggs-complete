@@ -112,7 +112,7 @@ export class Menu {
 
         if (this.cursorPos != opos) {
 
-            a.playSample(a.sounds.choose, 0.50);
+            a.playSample(a.sounds.choose, 0.40);
         }
 
         // Check if enter pressed

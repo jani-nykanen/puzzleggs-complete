@@ -30,6 +30,13 @@ window.onload = () => {
         {name: "start", src: "assets/audio/start.wav"},
         {name: "reject", src: "assets/audio/reject.wav"},
         {name: "pause", src: "assets/audio/pause.wav"},
+        {name: "finish", src: "assets/audio/finish.wav"},
+        {name: "egg", src: "assets/audio/egg.wav"},
+        {name: "sSwitch", src: "assets/audio/switch.wav"},
+        {name: "open", src: "assets/audio/open.wav"},
+        {name: "key", src: "assets/audio/key.wav"},
+        {name: "step", src: "assets/audio/step.wav"},
+        {name: "victory", src: "assets/audio/victory.ogg"},
     );
 
     c.run(60);

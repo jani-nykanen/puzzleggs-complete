@@ -6,7 +6,7 @@
 
 ## Introduction
 
-**PUZZLEggs** is my entry for js13k 2019. The theme was "BACK".
+**PUZZLEggs Complete Edition** is a post-compo version of my js13k 2019 entry. The theme was "BACK".
 
 -------
 
@@ -18,7 +18,7 @@ With some tomato sauce it's almost edible.
 
 ## Building
 
-Run `./tools/dist.sh`. Closure compiler is included in this repo, you just need to install `advzip` to get building working.
+Run `./tools/dist.sh`. Closure compiler is included in this repo. One should note that - unlike in the js13k version repo -, this script does not build the project with advanced compiling on, due to the fact that Howler.js does not work well with es6 modules.
 
 -------
 

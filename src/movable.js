@@ -35,6 +35,8 @@ export class Movable {
         this.moving = false;
         // Does exist
         this.exist = true;
+        
+        this.autoMove = false;
 
         // Does follow something 
         this.follow = null;
@@ -74,9 +76,21 @@ export class Movable {
         // Not moving, not interested
         if (!this.moving) return;
 
+        let a = ev.audio;
+        let otime = this.moveTimer;
+
         // Update move timer, if not following anyone
-        if (this.follow == null)
+        if (this.follow == null) {
+
             this.moveTimer -= ev.step
+            if (!this.dying &&
+                !this.autoMove &&
+                otime >= MOVE_TIME/2 && 
+                this.moveTimer < MOVE_TIME/2) {
+
+                a.playSample(a.sounds.step, 0.80);
+            }
+        }
 
         // Check if stopped moving
         if (this.moveTimer <= 0) {
@@ -104,7 +118,7 @@ export class Movable {
     //
     // Finish object
     //
-    finish(stage, o) {
+    finish(stage, o, ev) {
 
         const STAR_COUNT = 6;
         const STAR_SPEED = 4.0;
@@ -130,6 +144,8 @@ export class Movable {
                 STAR_RADIUS, 
                 this.depth, 
                 [1, 1, 1] );
+
+            ev.audio.playSample(ev.audio.sounds.finish, 0.60);
 
             return true;
         }

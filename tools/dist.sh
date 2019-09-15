@@ -7,7 +7,8 @@ cat html_up.txt > index.html
 cat out.js >> index.html
 cat html_down.txt >> index.html
 zip -r ../dist.zip howler.core.min.js assets index.html
-advzip -z ../dist.zip
+# No need for advzip any longer
+# advzip -z ../dist.zip
 rm index.html
 rm -rf assets
 rm -rf howler.core.min.js

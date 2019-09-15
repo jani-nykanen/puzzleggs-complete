@@ -76,13 +76,15 @@ export class Player extends Movable {
         let tx = this.pos.x | 0;
         let ty = this.pos.y | 0;
 
+        let a = ev.audio;
+
         // No controls if moving
         if (this.moving) return;
 
         this.autoMove  = false;
 
         // Check auto movement
-        let v = stage.autoMovement(this, objm);
+        let v = stage.autoMovement(this, objm, ev);
         let dir = null;
         if (v == null && !autoOnly) {
 
@@ -130,7 +132,7 @@ export class Player extends Movable {
             stage.updateSolid(this.pos.x, this.pos.y, 0);
 
             // Return true only if a lock is opened with a key
-            if (stage.updateSolid(tx, ty, 2)) {
+            if (stage.updateSolid(tx, ty, 2, ev)) {
 
                 -- this.keyCount;
 
@@ -141,6 +143,9 @@ export class Player extends Movable {
                     STAR_SPEED, STAR_COUNT, 
                     STAR_RADIUS, 1, [1, 1, 1]);
             }
+
+            if (!this.autoMove)
+                a.playSample(a.sounds.step, 0.80);
         }
     }
 

@@ -98,11 +98,13 @@ export class Egg extends Movable {
     //
     // Player collision
     //
-    playerCollision(pl, eggs, o, stage) {
+    playerCollision(pl, eggs, o, stage, ev) {
 
         const STAR_COUNT = 5;
         const STAR_SPEED = 4.0;
         const STAR_RADIUS = 10;
+
+        let a = ev.audio;
 
         if (this.follow != null || !this.exist) return;
 
@@ -136,6 +138,8 @@ export class Egg extends Movable {
 
             // Update solid data
             stage.updateSolid(this.pos.x, this.pos.y, 2);
+
+            a.playSample(a.sounds.egg, 0.70);
         }
     }
 

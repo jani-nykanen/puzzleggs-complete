@@ -149,7 +149,7 @@ export class ObjectManager {
 
             this.eggs[i].playerCollision(
                 this.player, this.eggFollowers,
-                this, stage);
+                this, stage, ev);
         }
         // We want to update egg in a specific order
         // to make dying work as intended
@@ -167,7 +167,7 @@ export class ObjectManager {
         // goal tile
         if (this.player != null &&
             !(this.eggsCollected() && 
-            this.player.finish(stage, this)) &&
+            this.player.finish(stage, this, ev)) &&
             this.player.isStuck(stage, game)) {
                 
             game.restartTransition(1);
@@ -179,7 +179,7 @@ export class ObjectManager {
         //  basic update)
         for (let i = this.eggFollowers.length-1; i >= 0; -- i ) {
 
-            this.eggFollowers[i].finish(stage, this);
+            this.eggFollowers[i].finish(stage, this, ev);
         }
 
         // Update stars

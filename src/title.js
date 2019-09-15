@@ -216,7 +216,7 @@ export class TitleScreen {
 
                 ++ this.phase;
 
-                a.playSample(a.sounds.start, 0.50);
+                a.playSample(a.sounds.start, 0.40);
             }
 
             // Update wave
@@ -266,7 +266,7 @@ export class TitleScreen {
                     }
                     else {
 
-                        a.playSample(a.sounds.start, 0.50);
+                        a.playSample(a.sounds.start, 0.40);
                         ev.tr.activate(true, 2.0, ...BG_COLOR,
                             () => {
                                 ev.changeScene("game", id);
