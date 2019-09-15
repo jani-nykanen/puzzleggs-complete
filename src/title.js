@@ -454,6 +454,13 @@ export class TitleScreen {
             null, null, null,
             SHADOW_OFF_2, 0.25, [1, 1, 1]);
 
+        // Compute logo shift
+        let logoShift = 0;
+        if (this.phase == -1) {
+
+            logoShift = Math.sin(Math.PI*2 * lscale) * LOGO_H/2;
+        }
+
         // Draw logo
         for (let i = 1; i >= 0; -- i) {
 
@@ -464,7 +471,7 @@ export class TitleScreen {
 
             c.drawScaledBitmap(bmpLogo, 
                 mx-LOGO_W/2*lscale + SHADOW_OFF_1*i, 
-                my + LOGO_Y + LOGO_H/2 - LOGO_H/2*lscale + SHADOW_OFF_1*i, 
+                my + LOGO_Y + logoShift + LOGO_H/2 - LOGO_H/2*lscale + SHADOW_OFF_1*i, 
                 LOGO_W*lscale, LOGO_H*lscale);
         }
 
