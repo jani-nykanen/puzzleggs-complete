@@ -7,4 +7,5 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body style="overflow: hidden; background-color: black; cursor: none; color: white">
+<script src=howler.core.min.js></script>
 <script>

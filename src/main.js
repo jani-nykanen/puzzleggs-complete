@@ -5,7 +5,7 @@ import { TitleScreen } from "./title.js";
 import { Intro } from "./intro.js";
 
 //
-// Main file
+// Main file (who would have guessed)
 // (c) 2019 Jani Nykänen
 //
 
@@ -23,6 +23,13 @@ window.onload = () => {
     c.ev.assets.addBitmaps(
         {name: "face", src: "assets/bitmaps/face.png"},
         {name: "logo", src: "assets/bitmaps/logo.png"}
+    );
+    c.ev.assets.addSounds(
+        {name: "accept", src: "assets/audio/accept.wav"},
+        {name: "choose", src: "assets/audio/choose.wav"},
+        {name: "start", src: "assets/audio/start.wav"},
+        {name: "reject", src: "assets/audio/reject.wav"},
+        {name: "pause", src: "assets/audio/pause.wav"},
     );
 
     c.run(60);

@@ -153,6 +153,8 @@ export class Game {
         const FLOAT_SPEED = 0.05;
         const STUCK_WAVE_SPEED = 0.025;
 
+        let a = ev.audio;
+
         // Update message timer
         if (this.msgTimer >= 0) {
 
@@ -211,6 +213,9 @@ export class Game {
 
             this.paused = true;
             this.pauseMenu.setCursorPos(0);
+
+            a.playSample(a.sounds.pause, 0.40);
+
             return;
         }
 

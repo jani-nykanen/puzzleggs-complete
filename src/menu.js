@@ -93,6 +93,10 @@ export class Menu {
     //
     update(ev) {
 
+        let a = ev.audio;
+
+        let opos = this.cursorPos;
+
         // Update cursor position
         let p = 0;
         if (ev.input.getKey(Action.Up) == State.Pressed) {
@@ -106,6 +110,11 @@ export class Menu {
         this.cursorPos = 
             negMod(this.cursorPos + p, this.buttons.length);
 
+        if (this.cursorPos != opos) {
+
+            a.playSample(a.sounds.choose, 0.50);
+        }
+
         // Check if enter pressed
         let cb;
         if (ev.input.getKey(Action.Start) == State.Pressed) {
@@ -113,8 +122,10 @@ export class Menu {
             cb = this.buttons[this.cursorPos].cb;
             if ( (cb = this.buttons[this.cursorPos].cb) != null) {
 
-                cb();
+                cb(ev);
             }
+
+            a.playSample(a.sounds.accept, 0.70);
         }
 
         // Update buttons

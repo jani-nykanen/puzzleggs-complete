@@ -2,6 +2,7 @@ import { Input } from "./input.js";
 import { Canvas } from "./canvas.js";
 import { Transition } from "./transition.js";
 import { AssetLoader } from "./assets.js";
+import { AudioPlayer } from "./audio.js";
 
 //
 // Application core
@@ -43,13 +44,13 @@ export class Core {
             // References to managers
             input: new Input(this.canvas.canvas),
             tr: new Transition(),
-            // Asset loaded
             assets: new AssetLoader(this.canvas.gl),
-
+            audio: new AudioPlayer(),
         };
 
         // Store reference to bitmaps to the canvas object
         this.canvas.bitmaps = this.ev.assets.bitmaps;
+        this.ev.audio.sounds = this.ev.assets.sounds;
 
         // Set events
         window.addEventListener("resize", () =>    

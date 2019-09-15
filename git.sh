@@ -6,3 +6,4 @@ git add README.md
 git add tools
 git add dev
 git add assets
+git add lib

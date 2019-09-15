@@ -160,6 +160,7 @@ export class TitleScreen {
         const PRESS_F_SPEED = 1.0;
         const LOGO_APPEAR_SPEED = 0.75;
 
+        let a = ev.audio;
         let id;
         let t;
         this.scale = 1;
@@ -214,6 +215,8 @@ export class TitleScreen {
             if (ev.input.getKey(Action.Start) == State.Pressed) {
 
                 ++ this.phase;
+
+                a.playSample(a.sounds.start, 0.50);
             }
 
             // Update wave
@@ -258,9 +261,12 @@ export class TitleScreen {
 
                         this.phase = 1;
                         this.errorTimer = ERR_TIME;
+
+                        a.playSample(a.sounds.reject, 0.50);
                     }
                     else {
 
+                        a.playSample(a.sounds.start, 0.50);
                         ev.tr.activate(true, 2.0, ...BG_COLOR,
                             () => {
                                 ev.changeScene("game", id);
@@ -272,6 +278,8 @@ export class TitleScreen {
 
                     this.phase = 1;
                     this.errorTimer = ERR_TIME;
+
+                    a.playSample(a.sounds.reject, 0.50);
                 }
             }
         }

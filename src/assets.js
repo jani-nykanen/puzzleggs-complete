@@ -1,5 +1,6 @@
 import { Bitmap } from "./bitmap.js";
 
+
 //
 // Asset loaded
 // (c) 2019 Jani Nykänen
@@ -17,8 +18,9 @@ export class AssetLoader {
         this.total = 0;
         this.loaded = 0;
 
-        // Bitmaps
+        // Assets
         this.bitmaps = [];
+        this.sounds = [];
 
         this.gl = gl;
     }
@@ -42,6 +44,24 @@ export class AssetLoader {
 
 
     //
+    // Load a sound
+    //
+    loadSound(src, name) {
+
+        ++ this.total;
+    
+        if (typeof(Howl) != "undefined") {
+
+            this.sounds[name] = new Howl({
+
+                src: [src],
+                onload: () => { ++ this.loaded;}
+            });
+        }
+    }
+
+
+    //
     // Add bitmaps
     //
     addBitmaps(any) {
@@ -49,6 +69,18 @@ export class AssetLoader {
         for (let a of arguments) {
 
             this.loadBitmap(a.src, a.name);
+        }
+    }
+
+
+    //
+    // Add sounds
+    //
+    addSounds(any) {
+
+        for (let a of arguments) {
+
+            this.loadSound(a.src, a.name);
         }
     }
 
