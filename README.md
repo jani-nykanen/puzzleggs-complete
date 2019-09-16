@@ -1,6 +1,8 @@
-## PUZZLEggs (Complete edition
+![](https://img.itch.zone/aW1nLzI0OTc0MTcucG5n/original/an7SM8.png)
 
-**js13k edition can be played here: http://js13kgames.com/entries/puzzleggs** (you can play it here)
+[The current version can be played on Itch.io](https://jani-nykanen.itch.io/puzzleggs?secret=gvlxnvbL3bD9GGsBk7BLf7ic)
+
+*(js13k edition can be played here: http://js13kgames.com/entries/puzzleggs)*
 
 -------
 

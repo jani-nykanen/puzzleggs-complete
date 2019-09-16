@@ -263,7 +263,7 @@ export class Game {
         // Go to the next stage, if stage finished
         if (this.objMan.stageFinished()) {
 
-            ev.audio.pauseMusic();
+            // ev.audio.pauseMusic();
             a.playSample(a.sounds.victory, 0.65);
 
             this.restartTransition(2, ev);

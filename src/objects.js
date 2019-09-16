@@ -139,6 +139,7 @@ export class ObjectManager {
     update(stage, game, ev) {
 
         // Update player
+        let t = this.player.dying;
         if (this.player != null) {
 
             this.player.update(stage, this, ev);
@@ -172,6 +173,12 @@ export class ObjectManager {
                 
             game.restartTransition(1, ev);
             return;
+        }
+
+        // Pause music, if reached the goal 
+        if (this.player.dying && !t) {
+
+            ev.audio.pauseMusic();
         }
 
         // Check if eggs are in the goal tile
