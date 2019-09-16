@@ -1,4 +1,5 @@
 import { Bitmap } from "./bitmap.js";
+import { clamp } from "./util.js";
 
 
 //
@@ -92,5 +93,15 @@ export class AssetLoader {
 
         return this.total == 0 ||
             (this.total == this.loaded);
+    }
+
+
+    //
+    // Get loading percentage
+    //
+    getPercentage() {
+
+        return Math.round(
+            this.loaded/this.total * 100) | 0;
     }
 }

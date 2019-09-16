@@ -14,6 +14,10 @@ import { Intro } from "./intro.js";
 window.onload = () => {
 
     let c = new Core();
+
+    c.ev.audio.musicVol = 0.60;
+    c.ev.audio.sampleVol = 0.50;
+
     c.addScene(new Game(c.ev), "game", false);
     c.addScene(new Ending(c.ev), "ending", false);
     c.addScene(new TitleScreen(c.ev, c.canvas), "title", false);

@@ -60,6 +60,27 @@ export class Core {
 
 
     //
+    // Draw loading screen
+    //
+    drawLoadingScreen(c) {
+
+        const VIEW_TARGET = 720.0;
+        const SCALE = 32.0;
+
+        c.fitViewToDimension(c.w, c.h, VIEW_TARGET);
+        c.loadIdentity(),
+        c.useTransform();
+
+        let str = "Loading... " +
+            String(this.ev.assets.getPercentage()) + "%";
+    
+        c.setColor(1, 1, 1);
+        c.drawScaledText(str, c.viewport.x/2, c.viewport.y/2 - SCALE/2,
+            -20, 0, SCALE, SCALE, true);    
+    }
+
+
+    //
     // Main loop
     //
     loop(ts) {
@@ -114,7 +135,8 @@ export class Core {
             }
             else {
 
-                // Draw loading screen?
+                // Draw loading screen
+                this.drawLoadingScreen(this.canvas);
             }
 
             // Draw global transition

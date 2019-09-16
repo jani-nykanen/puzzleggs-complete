@@ -15,11 +15,13 @@ export class AudioPlayer {
     //
     constructor(sounds) {
 
+        const DEFAULT_VOL = 1.0;
+
         this.enabled = false;
 
         // Volume
-        this.sampleVol = 1.0;
-        this.musicVol = 1.0;
+        this.sampleVol = DEFAULT_VOL;
+        this.musicVol = DEFAULT_VOL;
 
         // Music ID
         this.musicID = null;
@@ -72,7 +74,7 @@ export class AudioPlayer {
         sound.volume(vol * this.musicVol, sound);
         sound.loop(true, this.musicID);
         if(!this.enabled) vol = 0.0;
-        sound.fade(0.0, vol, time, this.musicID);
+        sound.fade(0.0, vol * this.musicVol, time, this.musicID);
     }
 
 
